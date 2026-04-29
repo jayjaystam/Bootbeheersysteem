@@ -1,0 +1,1 @@
+-- Database structuur voor het bootbeheersysteem
