@@ -1,5 +1,8 @@
 <?php
-// Startpunt van de applicatie
-// Hier komt later de routing of de eerste controller-aanroep.
 
-echo "Bootbeheersysteem";
+require_once '../config/database.php';
+
+$database = new Database();
+$pdo = $database->connect();
+
+echo 'Databaseverbinding werkt!';
