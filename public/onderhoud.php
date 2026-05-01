@@ -3,13 +3,12 @@
 require_once '../app/Helpers/auth.php';
 
 requireLogin();
-requireAdmin();
 
 $naam = $_SESSION['naam'] ?? 'Gebruiker';
 $rol = $_SESSION['rol'] ?? '';
 
-$currentPage = 'planning';
-$pageTitle = 'Planning - Bootbeheersysteem';
+$currentPage = 'onderhoud';
+$pageTitle = 'Onderhoud - Bootbeheersysteem';
 
 ?>
 
@@ -30,8 +29,8 @@ $pageTitle = 'Planning - Bootbeheersysteem';
 
         <section class="topbar">
             <div>
-                <h1>Planning</h1>
-                <p>Plan hier nieuwe onderhoudsopdrachten in.</p>
+                <h1>Onderhoud</h1>
+                <p>Bekijk hier de openstaande onderhoudsopdrachten.</p>
             </div>
 
             <span class="role-badge">
@@ -40,13 +39,13 @@ $pageTitle = 'Planning - Bootbeheersysteem';
         </section>
 
         <section class="dashboard-intro">
-            <h2>Onderhoud plannen</h2>
-            <p>Hier komt straks het formulier waarmee de beheerder onderhoud kan aanmaken.</p>
+            <h2>Onderhoudsoverzicht</h2>
+            <p>Hier komen straks alle openstaande onderhoudsopdrachten te staan.</p>
         </section>
 
         <section class="content-card">
-            <h3>Nieuwe onderhoudsopdracht</h3>
-            <p>Het formulier voor onderhoud plannen wordt in een volgende fase toegevoegd.</p>
+            <h3>Openstaande opdrachten</h3>
+            <p>De tabel met onderhoudsopdrachten wordt in een volgende fase toegevoegd.</p>
         </section>
 
     </main>

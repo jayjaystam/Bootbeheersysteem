@@ -6,34 +6,24 @@ requireLogin();
 
 $naam = $_SESSION['naam'] ?? 'Gebruiker';
 $rol = $_SESSION['rol'] ?? '';
+
+$currentPage = 'dashboard';
+$pageTitle = 'Dashboard - Bootbeheersysteem';
+
 ?>
 
 <!DOCTYPE html>
 <html lang="nl">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard - Bootbeheersysteem</title>
+    <title><?= htmlspecialchars($pageTitle); ?></title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <div class="app-layout">
 
-    <aside class="sidebar">
-        <h2>Bootbeheer</h2>
-
-        <nav>
-            <a href="dashboard.php" class="active">Dashboard</a>
-            <a href="boten.php">Boten</a>
-            <a href="onderhoud.php">Onderhoud</a>
-
-            <?php if ($rol === 'beheerder'): ?>
-                <a href="planning.php">Planning</a>
-            <?php endif; ?>
-        </nav>
-
-        <a href="logout.php" class="logout-link">Uitloggen</a>
-    </aside>
+    <?php require_once '../app/Views/layouts/sidebar.php'; ?>
 
     <main class="main-content">
 
