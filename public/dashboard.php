@@ -1,6 +1,11 @@
 <?php
 
-session_start();
+require_once '../app/Helpers/Auth.php';
+
+requireLogin();
+
+$naam = getIngelogdeGebruikerNaam();
+$rol = getIngelogdeGebruikerRol();
 
 ?>
 
@@ -14,15 +19,17 @@ session_start();
 
     <h1>Dashboard</h1>
 
-    <p>Je bent ingelogd.</p>
+    <p>Welkom, <?= htmlspecialchars($naam); ?>.</p>
+    <p>Je bent ingelogd als: <?= htmlspecialchars($rol); ?>.</p>
 
-    <?php if (isset($_SESSION['naam'])) : ?>
-        <p>Welkom, <?= htmlspecialchars($_SESSION['naam']); ?>.</p>
-    <?php endif; ?>
+    <nav>
+        <a href="dashboard.php">Dashboard</a> |
+        <a href="logout.php">Uitloggen</a>
+    </nav>
 
-    <?php if (isset($_SESSION['rol'])) : ?>
-        <p>Rol: <?= htmlspecialchars($_SESSION['rol']); ?></p>
-    <?php endif; ?>
+    <hr>
+
+    <p>Deze pagina is beveiligd. Je kunt deze pagina alleen bekijken als je bent ingelogd.</p>
 
 </body>
 </html>

@@ -22,16 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $gebruiker = $gebruikerModel->zoekOpGebruikersnaam($gebruikersnaam);
 
-        if ($gebruiker && password_verify($wachtwoord, $gebruiker['wachtwoord_hash'])) {
-            $_SESSION['gebruiker_id'] = $gebruiker['gebruiker_id'];
-            $_SESSION['naam'] = $gebruiker['naam'];
-            $_SESSION['rol'] = $gebruiker['rol'];
+if ($gebruiker && password_verify($wachtwoord, $gebruiker['wachtwoord_hash'])) {
+    session_start();
 
-            header('Location: dashboard.php');
-            exit;
-        } else {
-            $fout = 'Gebruikersnaam of wachtwoord is onjuist.';
-        }
+    $_SESSION['gebruiker_id'] = $gebruiker['gebruiker_id'];
+    $_SESSION['naam'] = $gebruiker['naam'];
+    $_SESSION['gebruikersnaam'] = $gebruiker['gebruikersnaam'];
+    $_SESSION['rol'] = $gebruiker['rol'];
+
+    header('Location: dashboard.php');
+    exit;
+} else {
+    $fout = 'Gebruikersnaam of wachtwoord is onjuist.';
+}
     }
 }
 
