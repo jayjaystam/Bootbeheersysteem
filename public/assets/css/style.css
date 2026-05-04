@@ -174,3 +174,56 @@ body {
 .content-card p {
     color: #666;
 }
+
+/* ============================= */
+/* Botenoverzicht tabel styling  */
+/* Gebruikt op: public/boten.php */
+/* ============================= */
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Knop voor acties zoals: Boot toevoegen */
+.button {
+    display: inline-block;
+    background-color: #1f4e79;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button:hover {
+    background-color: #163d5f;
+}
+
+/* Algemene tabel voor database-overzichten */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* Cellen van de tabel */
+.data-table th,
+.data-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+/* Bovenste rij van de tabel */
+.data-table th {
+    background-color: #f4f7fb;
+    color: #1f4e79;
+}
+
+/* Licht effect als je met je muis over een rij gaat */
+.data-table tr:hover {
+    background-color: #f9fbfd;
+}

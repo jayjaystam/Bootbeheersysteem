@@ -1,3 +1,11 @@
+
+<?php
+
+$rol = $_SESSION['rol'] ?? '';
+$naam = $_SESSION['naam'] ?? 'Gebruiker';
+$currentPage = $currentPage ?? '';
+
+?>
 <aside class="sidebar">
     <h2>Bootbeheer</h2>
 
