@@ -466,3 +466,103 @@ body {
     color: #842029;
     border: 1px solid #f5c2c7;
 }
+
+/* ============================= */
+/* Planning pagina */
+/* Styling voor onderhoud inplannen */
+/* ============================= */
+
+.content-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin: 25px;
+}
+
+.content-card h2 {
+    margin-top: 0;
+    color: #1f4e79;
+}
+
+.form-card {
+    max-width: 700px;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #222;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ccd6e0;
+    border-radius: 8px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-primary {
+    background-color: #1f4e79;
+    color: #ffffff;
+    padding: 11px 16px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #163a5a;
+}
+
+.btn-secondary {
+    background-color: #e9eef5;
+    color: #1f4e79;
+    padding: 11px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.btn-secondary:hover {
+    background-color: #d7e0eb;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+.alert-success {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
