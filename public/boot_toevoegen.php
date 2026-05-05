@@ -7,45 +7,57 @@ require_once '../app/Models/Klant.php';
 
 requireLogin();
 
-// alleen beheerder mag boten toevoegen 
-
+// Alleen beheerder mag boten toevoegen
 if (($_SESSION['rol'] ?? '') !== 'beheerder') {
-    header('location: dashboard.php');
+    header('Location: dashboard.php');
     exit;
 }
-
 
 $database = new Database();
 $pdo = $database->connect();
 
 $bootModel = new Boot($pdo);
-$klantModel = new klant($pdo);
-
-$klanten = $klantModel->getAll();
+$klantModel = new Klant($pdo);
 
 $fout = '';
 
-$klant_id = '';
-$naam = '';
+$klantNaam = '';
+$email = '';
+$telefoonnummer = '';
+$bootNaam = '';
 $merk = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $klant_id = trim($_POST['klant_id'] ?? '');
-    $naam = trim($_POST['naam'] ?? '');
+    $klantNaam = trim($_POST['klant_naam'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefoonnummer = trim($_POST['telefoonnummer'] ?? '');
+    $bootNaam = trim($_POST['boot_naam'] ?? '');
     $merk = trim($_POST['merk'] ?? '');
 
-    if (empty($klant_id) || empty($naam) || empty($merk)) {
+    if (
+        empty($klantNaam) ||
+        empty($email) ||
+        empty($telefoonnummer) ||
+        empty($bootNaam) ||
+        empty($merk)
+    ) {
         $fout = 'Vul alle verplichte velden in.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $fout = 'Vul een geldig e-mailadres in.';
     } else {
-        $bootModel->create($klant_id, $naam, $merk);
+        // Eerst wordt de nieuwe klant opgeslagen
+        $nieuweKlantId = $klantModel->create($klantNaam, $email, $telefoonnummer);
+
+        // Daarna wordt de boot gekoppeld aan deze nieuwe klant
+        $bootModel->create($nieuweKlantId, $bootNaam, $merk);
 
         header('Location: boten.php?success=boot_toegevoegd');
         exit;
     }
 }
 
-$currentpage = 'boten';
-$paginaTitel = 'boot toevoegen - bootbeheersysteem';
+$currentPage = 'boten';
+$pageTitle = 'Boot toevoegen - Bootbeheersysteem';
 
 ?>
 
@@ -67,11 +79,11 @@ $paginaTitel = 'boot toevoegen - bootbeheersysteem';
         <section class="topbar">
             <div>
                 <h1>Boot toevoegen</h1>
-                <p>Voeg een nieuwe boot toe en koppel deze aan een klant.</p>
+                <p>Voeg een nieuwe boot toe met de gegevens van de klant.</p>
             </div>
         </section>
 
-        <section class="content-card">
+        <section class="content-card boot-toevoegen-card">
 
             <?php if (!empty($fout)): ?>
                 <div class="alert alert-error">
@@ -79,58 +91,73 @@ $paginaTitel = 'boot toevoegen - bootbeheersysteem';
                 </div>
             <?php endif; ?>
 
-            <?php if (empty($klanten)): ?>
-                <div class="alert alert-error">
-                    Er zijn nog geen klanten. Voeg eerst een klant toe voordat je een boot kunt toevoegen.
+            <form method="POST" action="">
+
+                <h2>Klantgegevens</h2>
+
+                <div class="form-group">
+                    <label for="klant_naam">Klantnaam</label>
+                    <input 
+                        type="text" 
+                        name="klant_naam" 
+                        id="klant_naam" 
+                        value="<?= htmlspecialchars($klantNaam); ?>" 
+                        required
+                    >
                 </div>
-            <?php else: ?>
 
-                <form method="POST" action="">
+                <div class="form-group">
+                    <label for="email">E-mailadres</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email" 
+                        value="<?= htmlspecialchars($email); ?>" 
+                        required
+                    >
+                </div>
 
-                    <div class="form-group">
-                        <label for="klant_id">Klant</label>
-                        <select name="klant_id" id="klant_id" required>
-                            <option value="">-- Kies een klant --</option>
+                <div class="form-group">
+                    <label for="telefoonnummer">Telefoonnummer</label>
+                    <input 
+                        type="text" 
+                        name="telefoonnummer" 
+                        id="telefoonnummer" 
+                        value="<?= htmlspecialchars($telefoonnummer); ?>" 
+                        required
+                    >
+                </div>
 
-                            <?php foreach ($klanten as $klant): ?>
-                                <option value="<?= htmlspecialchars($klant['klant_id']); ?>"
-                                    <?= ($klant_id == $klant['klant_id']) ? 'selected' : ''; ?>>
-                                    <?= htmlspecialchars($klant['naam']); ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
+                <h2>Bootgegevens</h2>
 
-                    <div class="form-group">
-                        <label for="naam">Bootnaam</label>
-                        <input 
-                            type="text" 
-                            name="naam" 
-                            id="naam" 
-                            value="<?= htmlspecialchars($naam); ?>" 
-                            required
-                        >
-                    </div>
+                <div class="form-group">
+                    <label for="boot_naam">Bootnaam</label>
+                    <input 
+                        type="text" 
+                        name="boot_naam" 
+                        id="boot_naam" 
+                        value="<?= htmlspecialchars($bootNaam); ?>" 
+                        required
+                    >
+                </div>
 
-                    <div class="form-group">
-                        <label for="merk">Merk</label>
-                        <input 
-                            type="text" 
-                            name="merk" 
-                            id="merk" 
-                            value="<?= htmlspecialchars($merk); ?>" 
-                            required
-                        >
-                    </div>
+                <div class="form-group">
+                    <label for="merk">Merk</label>
+                    <input 
+                        type="text" 
+                        name="merk" 
+                        id="merk" 
+                        value="<?= htmlspecialchars($merk); ?>" 
+                        required
+                    >
+                </div>
 
-                    <div class="form-actions">
-                        <button type="submit" class="btn-primary">Opslaan</button>
-                        <a href="boten.php" class="btn-secondary">Annuleren</a>
-                    </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary">Opslaan</button>
+                    <a href="boten.php" class="btn-secondary">Annuleren</a>
+                </div>
 
-                </form>
-
-            <?php endif; ?>
+            </form>
 
         </section>
 

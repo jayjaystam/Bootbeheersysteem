@@ -29,7 +29,7 @@ class Klant
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Nieuwe klant toevoegen
+    // Nieuwe klant toevoegen en het nieuwe klant_id teruggeven
     public function create($naam, $email, $telefoonnummer)
     {
         $stmt = $this->pdo->prepare("
@@ -37,11 +37,13 @@ class Klant
             VALUES (:naam, :email, :telefoonnummer)
         ");
 
-        return $stmt->execute([
+        $stmt->execute([
             'naam' => $naam,
             'email' => $email,
             'telefoonnummer' => $telefoonnummer
         ]);
+
+        return $this->pdo->lastInsertId();
     }
 
     // Bestaande klant wijzigen

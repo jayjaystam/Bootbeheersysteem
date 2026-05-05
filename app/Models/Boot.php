@@ -30,8 +30,8 @@ class Boot
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-     // Haalt één boot op via het boot_id
-    // Deze functie gebruiken we straks bij boot_wijzigen.php
+    // Eén boot ophalen via het boot_id
+    // Deze functie gebruiken we bij boot_wijzigen.php
     public function getById($boot_id)
     {
         $sql = "
@@ -53,7 +53,7 @@ class Boot
     }
 
     // Voegt een nieuwe boot toe
-    // Deze functie gebruiken we straks bij boot_toevoegen.php
+    // Deze functie gebruiken we bij boot_toevoegen.php
     public function create($klant_id, $naam, $merk)
     {
         $sql = "
@@ -70,8 +70,8 @@ class Boot
         ]);
     }
 
-    // Wijzigt een bestaande boot
-    // Deze functie gebruiken we straks bij boot_wijzigen.php
+    // Wijzigt een bestaande boot volledig
+    // Deze functie laten we staan, maar gebruiken we nu niet voor boot_wijzigen.php
     public function update($boot_id, $klant_id, $naam, $merk)
     {
         $sql = "
@@ -93,15 +93,33 @@ class Boot
         ]);
     }
 
+    // Wijzigt alleen de naam van een boot
+    // Het merk blijft bewust hetzelfde
+    public function updateZonderMerk($boot_id, $naam)
+    {
+        $sql = "
+            UPDATE boot
+            SET naam = :naam
+            WHERE boot_id = :boot_id
+        ";
+
+        $stmt = $this->pdo->prepare($sql);
+
+        return $stmt->execute([
+            'boot_id' => $boot_id,
+            'naam' => $naam
+        ]);
+    }
+
     // Verwijdert een boot uit de database
-public function delete($boot_id)
-{
-    $sql = "DELETE FROM boot WHERE boot_id = :boot_id";
+    public function delete($boot_id)
+    {
+        $sql = "DELETE FROM boot WHERE boot_id = :boot_id";
 
-    $stmt = $this->pdo->prepare($sql);
+        $stmt = $this->pdo->prepare($sql);
 
-    return $stmt->execute([
-        'boot_id' => $boot_id
-    ]);
-}
+        return $stmt->execute([
+            'boot_id' => $boot_id
+        ]);
+    }
 }

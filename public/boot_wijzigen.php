@@ -19,14 +19,16 @@ $pdo = $database->connect();
 $bootModel = new Boot($pdo);
 $klantModel = new Klant($pdo);
 
+// Haal het boot_id uit de URL
 $boot_id = $_GET['id'] ?? null;
 
-// Controleer of er een geldig id is meegegeven
+// Controleer of er een geldig boot_id is meegegeven
 if (!$boot_id || !is_numeric($boot_id)) {
     header('Location: boten.php');
     exit;
 }
 
+// Haal de boot op uit de database
 $boot = $bootModel->getById($boot_id);
 
 // Controleer of de boot bestaat
@@ -35,23 +37,49 @@ if (!$boot) {
     exit;
 }
 
-$klanten = $klantModel->getAll();
+// Haal de klant op die bij deze boot hoort
+$klant = $klantModel->getById($boot['klant_id']);
+
+// Controleer of de klant bestaat
+if (!$klant) {
+    header('Location: boten.php');
+    exit;
+}
 
 $fout = '';
 
-$klant_id = $boot['klant_id'];
-$naam = $boot['naam'];
+// Vul de variabelen eerst met bestaande gegevens
+$klant_id = $klant['klant_id'];
+$klantNaam = $klant['naam'];
+$email = $klant['email'];
+$telefoonnummer = $klant['telefoonnummer'];
+$bootNaam = $boot['naam'];
 $merk = $boot['merk'];
 
+// Als het formulier is verstuurd
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $klant_id = trim($_POST['klant_id'] ?? '');
-    $naam = trim($_POST['naam'] ?? '');
-    $merk = trim($_POST['merk'] ?? '');
+    $klantNaam = trim($_POST['klant_naam'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $telefoonnummer = trim($_POST['telefoonnummer'] ?? '');
+    $bootNaam = trim($_POST['boot_naam'] ?? '');
 
-    if (empty($klant_id) || empty($naam) || empty($merk)) {
+    // Controleer of verplichte velden zijn ingevuld
+    if (
+        empty($klantNaam) ||
+        empty($email) ||
+        empty($telefoonnummer) ||
+        empty($bootNaam)
+    ) {
         $fout = 'Vul alle verplichte velden in.';
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $fout = 'Vul een geldig e-mailadres in.';
     } else {
-        $bootModel->update($boot_id, $klant_id, $naam, $merk);
+        // Wijzig de klantgegevens
+        $klantModel->update($klant_id, $klantNaam, $email, $telefoonnummer);
+
+        // Wijzig alleen de bootnaam
+        // Het merk blijft bewust hetzelfde
+        $bootModel->updateZonderMerk($boot_id, $bootNaam);
 
         header('Location: boten.php?success=boot_gewijzigd');
         exit;
@@ -81,11 +109,11 @@ $pageTitle = 'Boot wijzigen - Bootbeheersysteem';
         <section class="topbar">
             <div>
                 <h1>Boot wijzigen</h1>
-                <p>Wijzig de gegevens van een bestaande boot.</p>
+                <p>Wijzig de klantgegevens en bootnaam. Het merk blijft hetzelfde.</p>
             </div>
         </section>
 
-        <section class="content-card">
+        <section class="content-card boot-wijzigen-card">
 
             <?php if (!empty($fout)): ?>
                 <div class="alert alert-error">
@@ -95,27 +123,50 @@ $pageTitle = 'Boot wijzigen - Bootbeheersysteem';
 
             <form method="POST" action="">
 
-                <div class="form-group">
-                    <label for="klant_id">Klant</label>
-                    <select name="klant_id" id="klant_id" required>
-                        <option value="">-- Kies een klant --</option>
+                <h2>Klantgegevens</h2>
 
-                        <?php foreach ($klanten as $klant): ?>
-                            <option value="<?= htmlspecialchars($klant['klant_id']); ?>"
-                                <?= ($klant_id == $klant['klant_id']) ? 'selected' : ''; ?>>
-                                <?= htmlspecialchars($klant['naam']); ?>
-                            </option>
-                        <?php endforeach; ?>
-                    </select>
+                <div class="form-group">
+                    <label for="klant_naam">Klantnaam</label>
+                    <input 
+                        type="text" 
+                        name="klant_naam" 
+                        id="klant_naam" 
+                        value="<?= htmlspecialchars($klantNaam); ?>" 
+                        required
+                    >
                 </div>
 
                 <div class="form-group">
-                    <label for="naam">Bootnaam</label>
+                    <label for="email">E-mailadres</label>
+                    <input 
+                        type="email" 
+                        name="email" 
+                        id="email" 
+                        value="<?= htmlspecialchars($email); ?>" 
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="telefoonnummer">Telefoonnummer</label>
                     <input 
                         type="text" 
-                        name="naam" 
-                        id="naam" 
-                        value="<?= htmlspecialchars($naam); ?>" 
+                        name="telefoonnummer" 
+                        id="telefoonnummer" 
+                        value="<?= htmlspecialchars($telefoonnummer); ?>" 
+                        required
+                    >
+                </div>
+
+                <h2>Bootgegevens</h2>
+
+                <div class="form-group">
+                    <label for="boot_naam">Bootnaam</label>
+                    <input 
+                        type="text" 
+                        name="boot_naam" 
+                        id="boot_naam" 
+                        value="<?= htmlspecialchars($bootNaam); ?>" 
                         required
                     >
                 </div>
@@ -127,8 +178,9 @@ $pageTitle = 'Boot wijzigen - Bootbeheersysteem';
                         name="merk" 
                         id="merk" 
                         value="<?= htmlspecialchars($merk); ?>" 
-                        required
+                        readonly
                     >
+                    <small>Het merk kan niet worden aangepast.</small>
                 </div>
 
                 <div class="form-actions">

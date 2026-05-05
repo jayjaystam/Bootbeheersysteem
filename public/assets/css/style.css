@@ -227,3 +227,242 @@ body {
 .data-table tr:hover {
     background-color: #f9fbfd;
 }
+
+/* ================================
+   Boot toevoegen formulier
+   Alleen gebruikt op boot_toevoegen.php
+   ================================ */
+
+/* Kaart rondom het boot toevoegen formulier */
+.boot-toevoegen-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+}
+
+/* Kopjes binnen boot toevoegen, zoals Klantgegevens en Bootgegevens */
+.boot-toevoegen-card h2 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #1f4e79;
+    font-size: 20px;
+}
+
+/* Eerste kopje krijgt geen extra ruimte bovenaan */
+.boot-toevoegen-card h2:first-of-type {
+    margin-top: 0;
+}
+
+/* Groep rondom label en invoerveld */
+.boot-toevoegen-card .form-group {
+    margin-bottom: 18px;
+}
+
+/* Tekst boven een invoerveld */
+.boot-toevoegen-card .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Invoervelden op de boot toevoegen pagina */
+.boot-toevoegen-card .form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Effect als je in een invoerveld klikt */
+.boot-toevoegen-card .form-group input:focus {
+    outline: none;
+    border-color: #1f4e79;
+}
+
+/* Ruimte rondom de knoppen onderaan het formulier */
+.boot-toevoegen-card .form-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Blauwe knop voor opslaan */
+.boot-toevoegen-card .btn-primary {
+    background-color: #1f4e79;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* Hover-effect voor opslaan */
+.boot-toevoegen-card .btn-primary:hover {
+    background-color: #163a5a;
+}
+
+/* Grijze knop voor annuleren */
+.boot-toevoegen-card .btn-secondary {
+    background-color: #e5e7eb;
+    color: #222222;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+/* Hover-effect voor annuleren */
+.boot-toevoegen-card .btn-secondary:hover {
+    background-color: #d1d5db;
+}
+
+/* Foutmelding op de boot toevoegen pagina */
+.boot-toevoegen-card .alert {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+/* Rode foutmelding op de boot toevoegen pagina */
+.boot-toevoegen-card .alert-error {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
+
+/* ================================
+   Boot wijzigen formulier
+   Alleen gebruikt op boot_wijzigen.php
+   Zelfde indeling als boot_toevoegen.php
+   ================================ */
+
+/* Kaart rondom het boot wijzigen formulier */
+.boot-wijzigen-card {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    max-width: 700px;
+}
+
+/* Kopjes binnen boot wijzigen, zoals Klantgegevens en Bootgegevens */
+.boot-wijzigen-card h2 {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    color: #1f4e79;
+    font-size: 20px;
+}
+
+/* Eerste kopje krijgt geen extra ruimte bovenaan */
+.boot-wijzigen-card h2:first-of-type {
+    margin-top: 0;
+}
+
+/* Groep rondom label en invoerveld */
+.boot-wijzigen-card .form-group {
+    margin-bottom: 18px;
+}
+
+/* Tekst boven een invoerveld */
+.boot-wijzigen-card .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Invoervelden op de boot wijzigen pagina */
+.boot-wijzigen-card .form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+
+/* Veld dat niet aangepast mag worden, zoals merk */
+.boot-wijzigen-card .form-group input[readonly] {
+    background-color: #f1f3f5;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+/* Kleine uitlegtekst onder een veld */
+.boot-wijzigen-card .form-group small {
+    display: block;
+    margin-top: 6px;
+    color: #666666;
+    font-size: 13px;
+}
+
+/* Effect als je in een invoerveld klikt */
+.boot-wijzigen-card .form-group input:focus {
+    outline: none;
+    border-color: #1f4e79;
+}
+
+/* Readonly veld krijgt geen opvallende focus */
+.boot-wijzigen-card .form-group input[readonly]:focus {
+    border-color: #cccccc;
+}
+
+/* Ruimte rondom de knoppen onderaan het formulier */
+.boot-wijzigen-card .form-actions {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+}
+
+/* Blauwe knop voor wijzigingen opslaan */
+.boot-wijzigen-card .btn-primary {
+    background-color: #1f4e79;
+    color: #ffffff;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* Hover-effect voor wijzigingen opslaan */
+.boot-wijzigen-card .btn-primary:hover {
+    background-color: #163a5a;
+}
+
+/* Grijze knop voor annuleren */
+.boot-wijzigen-card .btn-secondary {
+    background-color: #e5e7eb;
+    color: #222222;
+    padding: 10px 16px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+/* Hover-effect voor annuleren */
+.boot-wijzigen-card .btn-secondary:hover {
+    background-color: #d1d5db;
+}
+
+/* Foutmelding op de boot wijzigen pagina */
+.boot-wijzigen-card .alert {
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+/* Rode foutmelding op de boot wijzigen pagina */
+.boot-wijzigen-card .alert-error {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c2c7;
+}
