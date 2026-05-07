@@ -69,14 +69,32 @@ if ($gebruiker && password_verify($wachtwoord, $gebruiker['wachtwoord_hash'])) {
 
         <br>
 
-        <div>
-            <label for="wachtwoord">Wachtwoord</label><br>
-            <input
-                type="password"
-                id="wachtwoord"
-                name="wachtwoord"
-            >
-        </div>
+        <div class="form-group">
+    <label for="wachtwoord">Wachtwoord</label>
+
+    <input 
+        type="password" 
+        id="wachtwoord" 
+        name="wachtwoord"
+    >
+
+    <label class="show-password">
+        <input type="checkbox" onclick="toggleWachtwoord()">
+        Wachtwoord tonen
+    </label>
+</div>
+
+<script>
+function toggleWachtwoord() {
+    const wachtwoordVeld = document.getElementById('wachtwoord');
+
+    if (wachtwoordVeld.type === 'password') {
+        wachtwoordVeld.type = 'text';
+    } else {
+        wachtwoordVeld.type = 'password';
+    }
+}
+</script>
 
         <br>
 

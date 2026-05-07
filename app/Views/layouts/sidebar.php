@@ -1,4 +1,3 @@
-
 <?php
 
 $rol = $_SESSION['rol'] ?? '';
@@ -6,6 +5,7 @@ $naam = $_SESSION['naam'] ?? 'Gebruiker';
 $currentPage = $currentPage ?? '';
 
 ?>
+
 <aside class="sidebar">
     <h2>Bootbeheer</h2>
 
@@ -25,6 +25,10 @@ $currentPage = $currentPage ?? '';
         <?php if ($rol === 'beheerder'): ?>
             <a href="planning.php" class="<?= $currentPage === 'planning' ? 'active' : ''; ?>">
                 Planning
+            </a>
+
+            <a href="werknemer_toevoegen.php" class="<?= $currentPage === 'werknemers' ? 'active' : ''; ?>">
+                Werknemer toevoegen
             </a>
         <?php endif; ?>
     </nav>
