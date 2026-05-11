@@ -45,61 +45,72 @@ if ($gebruiker && password_verify($wachtwoord, $gebruiker['wachtwoord_hash'])) {
 <head>
     <meta charset="UTF-8">
     <title>Inloggen - Bootbeheersysteem</title>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
+<body class="login-page">
 
-    <h1>Inloggen</h1>
+    <main class="login-container">
 
-    <?php if (!empty($fout)) : ?>
-        <p style="color: red;">
-            <?= htmlspecialchars($fout); ?>
-        </p>
-    <?php endif; ?>
+        <section class="login-card">
 
-    <form method="POST" action="">
-        <div>
-            <label for="gebruikersnaam">Gebruikersnaam</label><br>
-            <input
-                type="text"
-                id="gebruikersnaam"
-                name="gebruikersnaam"
-                value="<?= htmlspecialchars($gebruikersnaam); ?>"
-            >
-        </div>
+            <div class="login-header">
+                <h1>Inloggen</h1>
+                <p>Log in om toegang te krijgen tot het bootbeheersysteem.</p>
+            </div>
 
-        <br>
+            <?php if (!empty($fout)) : ?>
+                <div class="login-error">
+                    <?= htmlspecialchars($fout); ?>
+                </div>
+            <?php endif; ?>
 
-        <div class="form-group">
-    <label for="wachtwoord">Wachtwoord</label>
+            <form method="POST" action="" class="login-form">
 
-    <input 
-        type="password" 
-        id="wachtwoord" 
-        name="wachtwoord"
-    >
+                <div class="login-form-group">
+                    <label for="gebruikersnaam">Gebruikersnaam</label>
+                    <input
+                        type="text"
+                        id="gebruikersnaam"
+                        name="gebruikersnaam"
+                        value="<?= htmlspecialchars($gebruikersnaam ?? ''); ?>"
+                    >
+                </div>
 
-    <label class="show-password">
-        <input type="checkbox" onclick="toggleWachtwoord()">
-        Wachtwoord tonen
-    </label>
-</div>
+                <div class="login-form-group">
+                    <label for="wachtwoord">Wachtwoord</label>
+                    <input 
+                        type="password" 
+                        id="wachtwoord" 
+                        name="wachtwoord"
+                    >
+                </div>
 
-<script>
-function toggleWachtwoord() {
-    const wachtwoordVeld = document.getElementById('wachtwoord');
+                <label class="login-show-password">
+                    <input type="checkbox" onclick="toggleWachtwoord()">
+                    Wachtwoord tonen
+                </label>
 
-    if (wachtwoordVeld.type === 'password') {
-        wachtwoordVeld.type = 'text';
-    } else {
-        wachtwoordVeld.type = 'password';
-    }
-}
-</script>
+                <button type="submit" name="inloggen" class="login-button">
+                    Inloggen
+                </button>
 
-        <br>
+            </form>
 
-        <button type="submit">Inloggen</button>
-    </form>
+        </section>
+
+    </main>
+
+    <script>
+        function toggleWachtwoord() {
+            const wachtwoordVeld = document.getElementById('wachtwoord');
+
+            if (wachtwoordVeld.type === 'password') {
+                wachtwoordVeld.type = 'text';
+            } else {
+                wachtwoordVeld.type = 'password';
+            }
+        }
+    </script>
 
 </body>
 </html>
