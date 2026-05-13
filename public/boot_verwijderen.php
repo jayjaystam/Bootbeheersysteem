@@ -12,29 +12,32 @@ if (($_SESSION['rol'] ?? '') !== 'beheerder') {
     exit;
 }
 
+$boot_id = $_GET['id'] ?? null;
+
+// Controleer of er een geldig id is meegegeven
+if (!$boot_id || !ctype_digit((string) $boot_id)) {
+    header('Location: boten.php?error=ongeldig_id');
+    exit;
+}
+
 $database = new Database();
 $pdo = $database->connect();
 
 $bootModel = new Boot($pdo);
 
-$boot_id = $_GET['id'] ?? null;
-
-// Controleer of er een geldig id is meegegeven
-if (!$boot_id || !is_numeric($boot_id)) {
-    header('Location: boten.php');
+// Controleer eerst of deze boot onderhoudsopdrachten heeft
+if ($bootModel->heeftOnderhoudsopdrachten($boot_id)) {
+    header('Location: boten.php?error=boot_heeft_onderhoud');
     exit;
 }
 
-// Controleer of de boot bestaat
-$boot = $bootModel->getById($boot_id);
+// Probeer de boot te verwijderen
+$verwijderd = $bootModel->delete($boot_id);
 
-if (!$boot) {
-    header('Location: boten.php');
+if ($verwijderd) {
+    header('Location: boten.php?success=boot_verwijderd');
     exit;
 }
 
-// Verwijder de boot
-$bootModel->delete($boot_id);
-
-header('Location: boten.php?success=boot_verwijderd');
+header('Location: boten.php?error=verwijderen_mislukt');
 exit;

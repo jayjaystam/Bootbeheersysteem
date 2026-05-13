@@ -45,6 +45,7 @@ class Boot
         ";
 
         $stmt = $this->pdo->prepare($sql);
+
         $stmt->execute([
             'boot_id' => $boot_id
         ]);
@@ -111,12 +112,36 @@ class Boot
         ]);
     }
 
-    // Verwijdert een boot uit de database
-    public function delete($boot_id)
+    // Controleert of een boot gekoppelde onderhoudsopdrachten heeft
+    // Dit voorkomt een fatale fout bij verwijderen
+    public function heeftOnderhoudsopdrachten($boot_id)
     {
-        $sql = "DELETE FROM boot WHERE boot_id = :boot_id";
+        $sql = "
+            SELECT COUNT(*) 
+            FROM onderhoudsopdracht
+            WHERE boot_id = :boot_id
+        ";
 
         $stmt = $this->pdo->prepare($sql);
+
+        $stmt->execute([
+            'boot_id' => $boot_id
+        ]);
+
+        return (int) $stmt->fetchColumn() > 0;
+    }
+
+    // Verwijdert een boot alleen als er geen onderhoudsopdrachten aan gekoppeld zijn
+    public function delete($boot_id)
+    {
+        if ($this->heeftOnderhoudsopdrachten($boot_id)) {
+            return false;
+        }
+
+        $stmt = $this->pdo->prepare("
+            DELETE FROM boot 
+            WHERE boot_id = :boot_id
+        ");
 
         return $stmt->execute([
             'boot_id' => $boot_id

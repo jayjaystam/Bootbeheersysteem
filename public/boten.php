@@ -20,6 +20,7 @@ $pdo = $database->connect();
 $bootModel = new Boot($pdo);
 $boten = $bootModel->getAllWithKlant();
 
+
 ?>
 
 <!DOCTYPE html>
@@ -52,6 +53,31 @@ $boten = $bootModel->getAllWithKlant();
             <h2>Botenoverzicht</h2>
             <p>Hier zie je alle boten met de bijbehorende klantgegevens.</p>
         </section>
+        
+<?php if (isset($_GET['success']) && $_GET['success'] === 'boot_verwijderd') : ?>
+    <div class="melding succes">
+        Boot is succesvol verwijderd.
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'boot_heeft_onderhoud') : ?>
+    <div class="melding fout">
+        Deze boot kan niet worden verwijderd, omdat er nog onderhoudsopdrachten aan gekoppeld zijn.
+        De onderhoudsgeschiedenis moet bewaard blijven.
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'ongeldig_id') : ?>
+    <div class="melding fout">
+        Ongeldig boot-id. De boot kan niet worden verwijderd.
+    </div>
+<?php endif; ?>
+
+<?php if (isset($_GET['error']) && $_GET['error'] === 'verwijderen_mislukt') : ?>
+    <div class="melding fout">
+        De boot kon niet worden verwijderd. Probeer het opnieuw.
+    </div>
+<?php endif; ?>
 
         <section class="content-card">
             <div class="card-header">
